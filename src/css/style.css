@@ -1,0 +1,376 @@
+/* ===== Reset & Base ===== */
+*, *::before, *::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  font-size: 16px;
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: "Helvetica Neue", Arial, "Hiragino Kaku Gothic ProN", "Hiragino Sans", Meiryo, sans-serif;
+  line-height: 1.8;
+  color: rgba(255, 255, 255, 0.7);
+  background-color: #0a0a12;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+a {
+  color: #64c8ff;
+}
+
+/* ===== Header ===== */
+header {
+  text-align: center;
+  padding: 2.5rem 1rem 1rem;
+  background: #12121f;
+  border-bottom: 3px solid #ffd700;
+}
+
+header h1 {
+  font-size: 1.6rem;
+  color: #fff;
+  margin-bottom: 0.3rem;
+}
+
+header .subtitle {
+  font-size: 0.9rem;
+  color: rgba(255, 255, 255, 0.4);
+}
+
+/* ===== Tab Navigation ===== */
+.tab-nav {
+  display: flex;
+  background: #12121f;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.tab-nav a {
+  flex: 1;
+  text-align: center;
+  padding: 0.7rem 0.4rem;
+  font-size: 0.8rem;
+  font-weight: bold;
+  color: rgba(255, 255, 255, 0.4);
+  text-decoration: none;
+  border-bottom: 3px solid transparent;
+  transition: color 0.2s, border-color 0.2s;
+}
+
+.tab-nav a:hover {
+  color: rgba(255, 255, 255, 0.7);
+  border-bottom-color: rgba(255, 255, 255, 0.15);
+}
+
+.tab-nav a.active {
+  color: #64c8ff;
+  border-bottom-color: #64c8ff;
+}
+
+/* ===== Main ===== */
+main {
+  flex: 1;
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 1.5rem 1rem;
+  width: 100%;
+}
+
+.intro {
+  text-align: center;
+  margin-bottom: 2.5rem;
+  color: rgba(255, 255, 255, 0.4);
+  font-size: 0.95rem;
+}
+
+/* ===== Card Navigation (index only) ===== */
+.card-nav {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.card {
+  display: block;
+  padding: 1.5rem;
+  background: rgba(255, 215, 0, 0.04);
+  border: 1px solid rgba(255, 215, 0, 0.15);
+  border-left: 4px solid #ffd700;
+  border-radius: 6px;
+  text-decoration: none;
+  color: inherit;
+  transition: border-color 0.2s, transform 0.2s;
+}
+
+.card:hover {
+  border-left-color: #64c8ff;
+  border-color: rgba(100, 200, 255, 0.18);
+  transform: translateX(4px);
+}
+
+.card h2 {
+  font-size: 1.1rem;
+  color: #fff;
+  margin-bottom: 0.3rem;
+}
+
+.card p {
+  font-size: 0.85rem;
+  color: rgba(255, 255, 255, 0.4);
+}
+
+/* ===== Content Pages ===== */
+.section {
+  margin-bottom: 2.5rem;
+}
+
+.section h2 {
+  font-size: 1.3rem;
+  color: #ffd700;
+  margin-bottom: 1rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 2px solid rgba(255, 255, 255, 0.08);
+}
+
+.section h3 {
+  font-size: 1.05rem;
+  color: rgba(255, 255, 255, 0.85);
+  margin-bottom: 0.8rem;
+  margin-top: 1.2rem;
+}
+
+.item-list {
+  list-style: none;
+}
+
+.item-list li {
+  padding: 1rem;
+  margin-bottom: 0.6rem;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 6px;
+}
+
+.item-list li a {
+  color: #64c8ff;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.item-list li a:hover {
+  text-decoration: underline;
+}
+
+.item-list li .url-display {
+  display: block;
+  font-size: 0.7rem;
+  color: rgba(255, 255, 255, 0.25);
+  word-break: break-all;
+  margin-top: 0.15rem;
+}
+
+.item-list li .description {
+  display: block;
+  margin-top: 0.3rem;
+  font-size: 0.9rem;
+  color: rgba(255, 255, 255, 0.5);
+}
+
+.item-list li .note {
+  display: block;
+  margin-top: 0.3rem;
+  font-size: 0.8rem;
+  color: rgba(255, 255, 255, 0.3);
+  font-style: italic;
+}
+
+/* ===== Level Badge ===== */
+.level-badge {
+  display: inline-block;
+  padding: 0.15rem 0.6rem;
+  border-radius: 4px;
+  font-size: 0.75rem;
+  font-weight: bold;
+  margin-right: 0.5rem;
+  vertical-align: middle;
+}
+
+.level-badge.beginner {
+  background: rgba(120, 220, 180, 0.15);
+  color: #78dcb4;
+}
+
+.level-badge.intermediate {
+  background: rgba(255, 158, 0, 0.15);
+  color: #ff9e00;
+}
+
+.level-badge.advanced {
+  background: rgba(255, 107, 107, 0.15);
+  color: #ff6b6b;
+}
+
+/* ===== Price & Badge ===== */
+.price {
+  display: inline-block;
+  color: #ffd700;
+  font-weight: bold;
+  font-size: 0.9rem;
+}
+
+.free-badge {
+  display: inline-block;
+  padding: 0.1rem 0.5rem;
+  border-radius: 4px;
+  font-size: 0.75rem;
+  font-weight: bold;
+  background: rgba(120, 220, 180, 0.15);
+  color: #78dcb4;
+}
+
+.circle-name {
+  display: block;
+  font-size: 0.8rem;
+  color: rgba(255, 255, 255, 0.3);
+  margin-top: 0.1rem;
+}
+
+/* ===== Summary Box ===== */
+.summary-box {
+  padding: 1.2rem;
+  background: rgba(255, 215, 0, 0.04);
+  border: 2px solid rgba(255, 215, 0, 0.3);
+  border-radius: 8px;
+  margin-bottom: 2rem;
+  text-align: center;
+}
+
+.summary-box .total {
+  font-size: 1.3rem;
+  font-weight: bold;
+  color: #ffd700;
+}
+
+.summary-box .note {
+  font-size: 0.85rem;
+  color: rgba(255, 255, 255, 0.5);
+  margin-top: 0.3rem;
+}
+
+/* ===== Tips List ===== */
+.tips-list {
+  list-style: none;
+  counter-reset: tips;
+}
+
+.tips-list li {
+  padding: 0.6rem 0.6rem 0.6rem 2.5rem;
+  margin-bottom: 0.5rem;
+  position: relative;
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 0.9rem;
+}
+
+.tips-list li::before {
+  counter-increment: tips;
+  content: counter(tips);
+  position: absolute;
+  left: 0.6rem;
+  top: 0.6rem;
+  width: 1.4rem;
+  height: 1.4rem;
+  background: #64c8ff;
+  color: #0a0a12;
+  font-size: 0.75rem;
+  font-weight: bold;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* ===== Info Box ===== */
+.info-box {
+  padding: 1rem;
+  background: rgba(100, 200, 255, 0.05);
+  border-left: 3px solid #64c8ff;
+  border-radius: 0 6px 6px 0;
+  margin-bottom: 1rem;
+  font-size: 0.9rem;
+  color: rgba(255, 255, 255, 0.5);
+}
+
+.info-box strong {
+  color: rgba(255, 255, 255, 0.85);
+}
+
+/* ===== Warning Box ===== */
+.warning-box {
+  padding: 1rem;
+  background: rgba(255, 158, 0, 0.05);
+  border-left: 3px solid #ff9e00;
+  border-radius: 0 6px 6px 0;
+  margin-bottom: 1rem;
+  font-size: 0.9rem;
+  color: rgba(255, 255, 255, 0.6);
+}
+
+.warning-box strong {
+  color: #ffd700;
+}
+
+.warning-box ul {
+  margin: 0.5rem 0 0 1.2rem;
+  color: rgba(255, 255, 255, 0.45);
+  font-size: 0.85rem;
+}
+
+.warning-box ul li {
+  margin-bottom: 0.2rem;
+}
+
+/* ===== Footer ===== */
+footer {
+  text-align: center;
+  padding: 1.5rem 1rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+  font-size: 0.8rem;
+  color: rgba(255, 255, 255, 0.2);
+}
+
+footer a {
+  color: #64c8ff;
+  text-decoration: none;
+}
+
+footer a:hover {
+  text-decoration: underline;
+}
+
+/* ===== Responsive ===== */
+@media (max-width: 600px) {
+  header h1 {
+    font-size: 1.3rem;
+  }
+
+  main {
+    padding: 1.2rem 0.8rem;
+  }
+
+  .tab-nav a {
+    font-size: 0.7rem;
+    padding: 0.6rem 0.2rem;
+  }
+
+  .card {
+    padding: 1.2rem;
+  }
+}

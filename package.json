@@ -1,0 +1,19 @@
+{
+  "name": "dry-orgasm-guide",
+  "version": "1.0.0",
+  "description": "ドライオーガズム6ヶ月完全開発ガイド - 購入者向けリソースサイト",
+  "main": "index.js",
+  "scripts": {
+    "build": "node build.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "http://local_proxy@127.0.0.1:28703/git/usiro876/dry-orgasm-guide"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "staticrypt": "^3.5.4"
+  }
+}

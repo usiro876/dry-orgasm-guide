@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>目次インフォグラフィック</title>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700;900&family=Orbitron:wght@700;900&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Noto Sans JP', sans-serif;
+            background: #040408;
+            display: flex;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .canvas {
+            width: 1920px;
+            height: 1080px;
+            background: linear-gradient(155deg, #08080f 0%, #0d0d1a 40%, #0a0a14 100%);
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            padding: 36px 56px 24px;
+        }
+
+        .glow {
+            position: absolute;
+            border-radius: 50%;
+            pointer-events: none;
+            mix-blend-mode: screen;
+            will-change: filter;
+        }
+        .glow-top {
+            width: 900px; height: 400px;
+            background: radial-gradient(circle, rgba(255,215,0,0.12) 0%, rgba(255,215,0,0.04) 40%, rgba(255,215,0,0) 70%);
+            top: -180px; left: 50%; transform: translateX(-50%);
+            filter: blur(80px);
+        }
+        .glow-bl {
+            width: 500px; height: 500px;
+            background: radial-gradient(circle, rgba(157,78,221,0.10) 0%, rgba(157,78,221,0) 70%);
+            bottom: -200px; left: -80px;
+            filter: blur(100px);
+        }
+        .glow-br {
+            width: 500px; height: 500px;
+            background: radial-gradient(circle, rgba(255,158,0,0.08) 0%, rgba(255,158,0,0) 70%);
+            bottom: -150px; right: -50px;
+            filter: blur(100px);
+        }
+        .canvas::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            opacity: 0.02;
+            pointer-events: none;
+            z-index: 100;
+        }
+
+        .header {
+            text-align: center;
+            position: relative;
+            z-index: 10;
+            margin-bottom: 20px;
+            flex-shrink: 0;
+        }
+        .badge {
+            display: inline-block;
+            background: #ffd700;
+            color: #000;
+            font-size: 16px;
+            font-weight: 900;
+            padding: 5px 26px;
+            border-radius: 40px;
+            letter-spacing: 5px;
+            margin-bottom: 6px;
+        }
+        .main-title {
+            font-size: 46px;
+            font-weight: 900;
+            color: #fff;
+            letter-spacing: 8px;
+            line-height: 1.15;
+        }
+        .subtitle {
+            font-size: 17px;
+            color: rgba(255,255,255,0.35);
+            font-weight: 500;
+            letter-spacing: 3px;
+            margin-top: 4px;
+        }
+
+        .content {
+            position: relative;
+            z-index: 10;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+            min-height: 0;
+        }
+
+        .row1 {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 14px;
+            flex-shrink: 0;
+        }
+        .row2 {
+            flex: 1;
+            display: flex;
+            min-height: 0;
+        }
+        .row3 {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 14px;
+            flex-shrink: 0;
+        }
+
+        .chapter-card {
+            border-radius: 14px;
+            padding: 16px 22px 14px;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .ch-number {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 10px;
+            font-weight: 700;
+            letter-spacing: 3px;
+            margin-bottom: 3px;
+            opacity: 0.5;
+        }
+
+        .ch-title {
+            font-size: 22px;
+            font-weight: 900;
+            color: #fff;
+            line-height: 1.3;
+            margin-bottom: 8px;
+        }
+
+        .ch-sections {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 3px;
+            flex: 1;
+        }
+
+        .ch-sections li {
+            font-size: 15px;
+            color: rgba(255,255,255,0.55);
+            line-height: 1.35;
+            padding-left: 13px;
+            position: relative;
+        }
+        .ch-sections li::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 7px;
+            width: 5px;
+            height: 5px;
+            border-radius: 50%;
+            opacity: 0.5;
+        }
+
+        .ch1 { background: rgba(255,215,0,0.05); border: 1.5px solid rgba(255,215,0,0.18); }
+        .ch2 { background: rgba(100,200,255,0.05); border: 1.5px solid rgba(100,200,255,0.18); }
+        .ch3 { background: rgba(157,78,221,0.05); border: 1.5px solid rgba(157,78,221,0.18); }
+        .ch4 { background: rgba(255,100,100,0.04); border: 1.5px solid rgba(255,100,100,0.15); }
+        .ch5 { background: rgba(255,158,0,0.05); border: 1.5px solid rgba(255,158,0,0.18); }
+        .ch6 { background: rgba(120,220,180,0.05); border: 1.5px solid rgba(120,220,180,0.18); }
+        .ch7 { background: rgba(200,180,255,0.05); border: 1.5px solid rgba(200,180,255,0.18); }
+
+        .ch1 .ch-number { color: #ffd700; }
+        .ch2 .ch-number { color: #64c8ff; }
+        .ch3 .ch-number { color: #9d4edd; }
+        .ch4 .ch-number { color: #ff6464; }
+        .ch5 .ch-number { color: #ff9e00; }
+        .ch6 .ch-number { color: #78dcb4; }
+        .ch7 .ch-number { color: #c8b4ff; }
+
+        .ch1 .ch-sections li::before { background: #ffd700; }
+        .ch2 .ch-sections li::before { background: #64c8ff; }
+        .ch3 .ch-sections li::before { background: #9d4edd; }
+        .ch5 .ch-sections li::before { background: #ff9e00; }
+        .ch6 .ch-sections li::before { background: #78dcb4; }
+        .ch7 .ch-sections li::before { background: #c8b4ff; }
+
+        /* 4章 */
+        .ch4 {
+            width: 100%;
+            padding: 18px 28px 16px;
+            flex: 1;
+        }
+        .ch4 .ch-title {
+            font-size: 26px;
+            margin-bottom: 10px;
+        }
+        .ch4-label {
+            display: inline-block;
+            font-size: 11px;
+            font-weight: 700;
+            color: #ff6464;
+            background: rgba(255,100,100,0.12);
+            padding: 2px 10px;
+            border-radius: 20px;
+            margin-left: 8px;
+            vertical-align: middle;
+            letter-spacing: 1px;
+        }
+        .ch4-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 16px;
+            flex: 1;
+        }
+
+        .ch4-axis { display: flex; flex-direction: column; }
+
+        .ch4-axis-label {
+            font-size: 16px;
+            font-weight: 900;
+            margin-bottom: 6px;
+            display: flex;
+            align-items: center;
+            gap: 7px;
+        }
+        .ch4-axis-label .dot {
+            width: 7px; height: 7px;
+            border-radius: 50%;
+            display: inline-block;
+            flex-shrink: 0;
+        }
+
+        .axis-hypnosis .ch4-axis-label { color: #9d4edd; }
+        .axis-hypnosis .dot { background: #9d4edd; }
+        .axis-nipple .ch4-axis-label { color: #f72585; }
+        .axis-nipple .dot { background: #f72585; }
+        .axis-prostate .ch4-axis-label { color: #ff9e00; }
+        .axis-prostate .dot { background: #ff9e00; }
+        .axis-brain .ch4-axis-label { color: #64c8ff; }
+        .axis-brain .dot { background: #64c8ff; }
+
+        .ch4-axis .ch-sections { gap: 2px; }
+        .ch4-axis .ch-sections li {
+            font-size: 13.5px;
+            padding-left: 12px;
+            line-height: 1.4;
+        }
+        .ch4-axis .ch-sections li::before {
+            top: 6px; width: 4px; height: 4px;
+        }
+        .axis-hypnosis .ch-sections li::before { background: #9d4edd; }
+        .axis-nipple .ch-sections li::before { background: #f72585; }
+        .axis-prostate .ch-sections li::before { background: #ff9e00; }
+        .axis-brain .ch-sections li::before { background: #64c8ff; }
+
+        .footer-bar {
+            position: relative;
+            z-index: 10;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 28px;
+            margin-top: 14px;
+            padding: 12px 0 0;
+            border-top: 1px solid rgba(255,255,255,0.06);
+            flex-shrink: 0;
+        }
+        .footer-stat { display: flex; align-items: baseline; gap: 6px; }
+        .footer-stat-value {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 22px; font-weight: 900; color: #ffd700;
+        }
+        .footer-stat-label { font-size: 15px; color: rgba(255,255,255,0.4); }
+        .footer-divider { width: 1.5px; height: 28px; background: rgba(255,255,255,0.08); }
+        .footer-copyright { font-size: 15px; color: rgba(255,255,255,0.2); }
+        .appendix-badge {
+            display: inline-block; font-size: 10px; font-weight: 700;
+            padding: 2px 8px; border-radius: 20px; margin-left: 6px;
+            vertical-align: middle; background: rgba(200,180,255,0.15); color: #c8b4ff;
+        }
+    </style>
+</head>
+<body>
+    <div class="canvas">
+        <div class="glow glow-top"></div>
+        <div class="glow glow-bl"></div>
+        <div class="glow glow-br"></div>
+
+        <header class="header">
+            <div class="badge">COMPLETE GUIDE</div>
+            <h1 class="main-title">全 7 章 構 成</h1>
+            <p class="subtitle">ドライオーガズム6ヶ月完全開発ガイド ～催眠・乳首・前立腺の3軸メソッド～</p>
+        </header>
+
+        <div class="content">
+            <div class="row1">
+                <div class="chapter-card ch1">
+                    <div class="ch-number">CHAPTER 01</div>
+                    <div class="ch-title">このガイドについて</div>
+                    <ul class="ch-sections">
+                        <li>はじめに</li>
+                        <li>必須用語</li>
+                        <li>安全ガイド＆チェックリスト</li>
+                    </ul>
+                </div>
+                <div class="chapter-card ch2">
+                    <div class="ch-number">CHAPTER 02</div>
+                    <div class="ch-title">準備と基礎知識</div>
+                    <ul class="ch-sections">
+                        <li>必須アイテム</li>
+                        <li>環境づくり</li>
+                        <li>マインドセット</li>
+                    </ul>
+                </div>
+                <div class="chapter-card ch3">
+                    <div class="ch-number">CHAPTER 03</div>
+                    <div class="ch-title">開発ロードマップ</div>
+                    <ul class="ch-sections">
+                        <li>開発レベルスキルツリー</li>
+                        <li>開発レベルチェック</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="row2">
+                <div class="chapter-card ch4">
+                    <div class="ch-number">CHAPTER 04</div>
+                    <div class="ch-title">実践・開発メソッド<span class="ch4-label">MAIN</span></div>
+                    <div class="ch4-grid">
+                        <div class="ch4-axis axis-hypnosis">
+                            <div class="ch4-axis-label"><span class="dot"></span>催眠開発</div>
+                            <ul class="ch-sections">
+                                <li>Lv-1 拒否感の解消</li>
+                                <li>Lv0 流れの把握</li>
+                                <li>Lv1 存在の認識</li>
+                                <li>Lv2 感覚の変化</li>
+                                <li>Lv3 性感の発現</li>
+                                <li>Lv4 性感増加</li>
+                                <li>Lv5 催眠絶頂</li>
+                            </ul>
+                        </div>
+                        <div class="ch4-axis axis-nipple">
+                            <div class="ch4-axis-label"><span class="dot"></span>乳首開発</div>
+                            <ul class="ch-sections">
+                                <li>Lv1 スポールバン期</li>
+                                <li>Lv2 スポールバン+乳首いじり</li>
+                                <li>Lv3 ペニスリンク</li>
+                                <li>Lv4 乳首単独で性感認識</li>
+                                <li>Lv5 性感の増加と満足感</li>
+                                <li>Lv6 甘イキ</li>
+                                <li>Lv7 安定化</li>
+                                <li>Lv8 ドライオーガズム</li>
+                            </ul>
+                        </div>
+                        <div class="ch4-axis axis-prostate">
+                            <div class="ch4-axis-label"><span class="dot"></span>前立腺開発</div>
+                            <ul class="ch-sections">
+                                <li>Lv1 ならし</li>
+                                <li>Lv2 アネロスならし</li>
+                                <li>Lv3 感覚の認識</li>
+                                <li>Lv4 感覚の変化</li>
+                                <li>Lv5 性感の認識</li>
+                                <li>Lv6 性感の増加</li>
+                                <li>Lv7 甘イキ</li>
+                                <li>Lv8 ドライオーガズム</li>
+                                <li>Lv9 DO頻度の増加</li>
+                                <li>Lv10 DOの安定化</li>
+                            </ul>
+                        </div>
+                        <div class="ch4-axis axis-brain">
+                            <div class="ch4-axis-label"><span class="dot"></span>脳内開発</div>
+                            <ul class="ch-sections">
+                                <li>快感回路の構築</li>
+                                <li>感覚の統合と増幅</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row3">
+                <div class="chapter-card ch5">
+                    <div class="ch-number">CHAPTER 05</div>
+                    <div class="ch-title">統合と進化</div>
+                    <ul class="ch-sections">
+                        <li>ドライオーガズムへの到達</li>
+                        <li>組み合わせ開発</li>
+                        <li>スーパーオーガズム(SO)</li>
+                    </ul>
+                </div>
+                <div class="chapter-card ch6">
+                    <div class="ch-number">CHAPTER 06</div>
+                    <div class="ch-title">資料とサポート</div>
+                    <ul class="ch-sections">
+                        <li>トラブルシューティング</li>
+                        <li>参考資料・リンク集</li>
+                        <li>おすすめの音声作品</li>
+                        <li>任意購入アイテム</li>
+                    </ul>
+                </div>
+                <div class="chapter-card ch7">
+                    <div class="ch-number">CHAPTER 07</div>
+                    <div class="ch-title">コラム<span class="appendix-badge">+ 付録</span></div>
+                    <ul class="ch-sections">
+                        <li>腸内環境改善</li>
+                        <li>「心の壁」と向き合う</li>
+                        <li>呼吸法によるDO深化</li>
+                        <li>進捗記録シート</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer-bar">
+            <div class="footer-stat">
+                <span class="footer-stat-value">13万+</span>
+                <span class="footer-stat-label">文字</span>
+            </div>
+            <div class="footer-divider"></div>
+            <div class="footer-stat">
+                <span class="footer-stat-value">23</span>
+                <span class="footer-stat-label">段階のレベル定義</span>
+            </div>
+            <div class="footer-divider"></div>
+            <div class="footer-stat">
+                <span class="footer-stat-value">7</span>
+                <span class="footer-stat-label">章構成</span>
+            </div>
+            <div class="footer-divider"></div>
+            <div class="footer-copyright">© SuperOrgasm</div>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ドライオーガズム6ヶ月完全開発ガイド - サンプル画像</title>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;700;900&family=Orbitron:wght@700;900&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Noto Sans JP', sans-serif;
+            background: #040408;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            padding: 20px;
+        }
+
+        .canvas {
+            width: 1920px;
+            height: 1080px;
+            background: linear-gradient(155deg, #08080f 0%, #0d0d1a 40%, #0a0a14 100%);
+            position: relative;
+            overflow: hidden;
+            display: grid;
+            grid-template-rows: auto 1fr auto;
+            padding: 48px 56px 36px;
+        }
+
+        /* ===== 背景装飾の改善案 ===== */
+.glow {
+    position: absolute;
+    border-radius: 50%;
+    /* filter: blur を弱めるか外す */
+    pointer-events: none;
+    /* 画面に色を馴染ませる */
+    mix-blend-mode: screen; 
+    /* 描画を滑らかにするためのヒント */
+    will-change: filter;
+}
+
+.glow-top {
+    width: 800px;
+    height: 500px;
+    /* 中心から外側へ滑らかに消えるグラデーション */
+    background: radial-gradient(circle, rgba(255,215,0,0.15) 0%, rgba(255,215,0,0.05) 40%, rgba(255,215,0,0) 70%);
+    top: -200px;
+    left: 50%;
+    transform: translateX(-50%);
+    filter: blur(80px); /* 以前より弱める */
+}
+
+.glow-bl {
+    width: 600px;
+    height: 600px;
+    background: radial-gradient(circle, rgba(157,78,221,0.12) 0%, rgba(157,78,221,0) 70%);
+    bottom: -200px;
+    left: -100px;
+    filter: blur(100px);
+}
+
+.glow-br {
+    width: 500px;
+    height: 500px;
+    background: radial-gradient(circle, rgba(255,158,0,0.1) 0%, rgba(255,158,0,0) 70%);
+    bottom: -150px;
+    right: -50px;
+    filter: blur(100px);
+}
+
+/* 隠し味：全体に極薄くノイズを載せて質感を上げる（オプション） */
+.canvas::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    opacity: 0.02; /* 非常に薄く */
+    pointer-events: none;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3 Trab%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+    z-index: 100;
+}
+        /* ===== ヘッダー ===== */
+        .header {
+            text-align: center;
+            position: relative;
+            z-index: 10;
+            margin-bottom: 8px;
+        }
+
+        .badge {
+            display: inline-block;
+            background: #ffd700;
+            color: #000;
+            font-size: 22px;
+            font-weight: 900;
+            padding: 8px 32px;
+            border-radius: 40px;
+            letter-spacing: 6px;
+            margin-bottom: 10px;
+        }
+
+        .main-title {
+            font-size: 64px;
+            font-weight: 900;
+            color: #fff;
+            letter-spacing: 4px;
+            line-height: 1.15;
+        }
+
+        .subtitle {
+            font-size: 34px;
+            color: #ffd700;
+            font-weight: 700;
+            letter-spacing: 10px;
+            margin-top: 4px;
+        }
+
+        /* ===== メインコンテンツ ===== */
+        .content {
+            position: relative;
+            z-index: 10;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 32px;
+            align-content: center;
+        }
+
+        /* 左カラム: このガイドとは + スペック */
+        .left-col {
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+        }
+
+        .desc-box {
+            background: rgba(255,215,0,0.04);
+            border: 1.5px solid rgba(255,215,0,0.15);
+            border-radius: 20px;
+            padding: 32px 32px;
+        }
+
+        .desc-headline {
+            font-size: 40px;
+            font-weight: 900;
+            line-height: 1.35;
+            margin-bottom: 16px;
+            color: #fff;
+        }
+
+        .desc-headline em {
+            font-style: normal;
+            color: #ffd700;
+        }
+
+        .desc-text {
+            font-size: 35px;
+            color: rgba(255,255,255,0.7);
+            line-height: 1.6;
+        }
+
+        /* スペック数字 */
+        .specs {
+            display: flex;
+            gap: 20px;
+        }
+
+        .spec {
+            flex: 1;
+            text-align: center;
+            background: rgba(0,0,0,0.4);
+            border: 1px solid rgba(255,215,0,0.12);
+            border-radius: 16px;
+            padding: 20px 12px;
+        }
+
+        .spec-value {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 48px;
+            font-weight: 900;
+            color: #ffd700;
+            line-height: 1;
+        }
+
+        .spec-label {
+            font-size: 22px;
+            color: rgba(255,255,255,0.5);
+            margin-top: 6px;
+            letter-spacing: 1px;
+        }
+
+        /* 右カラム: 3軸メソッド */
+        .right-col {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .axis-section-title {
+            font-size: 32px;
+            font-weight: 900;
+            color: #ffd700;
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            margin-bottom: 4px;
+        }
+
+        .axis-section-title::before {
+            content: '';
+            width: 5px;
+            height: 32px;
+            background: #ffd700;
+            border-radius: 3px;
+        }
+
+        .axis-card {
+            padding: 24px 28px;
+            border-radius: 16px;
+            border-left: 5px solid;
+            display: flex;
+            align-items: center;
+            gap: 24px;
+        }
+
+        .axis-card.hypnosis {
+            border-color: #9d4edd;
+            background: rgba(157,78,221,0.08);
+        }
+        .axis-card.nipple {
+            border-color: #f72585;
+            background: rgba(247,37,133,0.08);
+        }
+        .axis-card.prostate {
+            border-color: #ff9e00;
+            background: rgba(255,158,0,0.08);
+        }
+
+        .axis-info {
+            flex: 1;
+        }
+
+        .axis-name {
+            font-size: 36px;
+            font-weight: 900;
+        }
+        .axis-card.hypnosis .axis-name { color: #9d4edd; }
+        .axis-card.nipple .axis-name { color: #f72585; }
+        .axis-card.prostate .axis-name { color: #ff9e00; }
+
+        .axis-desc {
+            font-size: 24px;
+            color: rgba(255,255,255,0.65);
+            line-height: 1.5;
+            margin-top: 4px;
+        }
+
+        .axis-difficulty {
+            font-size: 28px;
+            color: rgba(255,255,255,0.35);
+            white-space: nowrap;
+            flex-shrink: 0;
+        }
+
+        /* ===== フッター: ゴール + 注意 ===== */
+        .footer-bar {
+            position: relative;
+            z-index: 10;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 40px;
+            margin-top: 16px;
+            padding: 20px 0 0;
+            border-top: 1px solid rgba(255,255,255,0.06);
+        }
+
+        .goal-flow {
+            display: flex;
+            align-items: center;
+            gap: 24px;
+        }
+
+        .goal-item {
+            text-align: center;
+        }
+
+        .goal-period {
+            font-size: 22px;
+            color: rgba(255,255,255,0.4);
+        }
+
+        .goal-label {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 36px;
+            font-weight: 900;
+        }
+
+        .goal-label.do { color: #ffd700; }
+        .goal-label.so { color: #ff7b7b; }
+
+        .goal-arrow {
+            font-size: 44px;
+            color: rgba(255,255,255,0.2);
+        }
+
+        .footer-divider {
+            width: 1.5px;
+            height: 48px;
+            background: rgba(255,255,255,0.1);
+        }
+
+        .footer-note {
+            font-size: 22px;
+            color: rgba(255,255,255,0.35);
+        }
+
+        .footer-copyright {
+            font-size: 20px;
+            color: rgba(255,255,255,0.25);
+        }
+    </style>
+</head>
+<body>
+    <div class="canvas">
+        <!-- 背景装飾 -->
+        <div class="glow glow-top"></div>
+        <div class="glow glow-bl"></div>
+        <div class="glow glow-br"></div>
+
+        <!-- ヘッダー -->
+        <header class="header">
+            <div class="badge">COMPLETE GUIDE</div>
+            <h1 class="main-title">ドライオーガズム6ヶ月完全開発ガイド</h1>
+            <p class="subtitle">～催眠・乳首・前立腺の3軸メソッド～</p>
+        </header>
+
+        <!-- メインコンテンツ -->
+        <div class="content">
+            <!-- 左カラム -->
+            <div class="left-col">
+                <div class="desc-box">
+                    <p class="desc-headline">
+                        <em>「次に何をすべきか」</em>が<br>常に明確なロードマップ
+                    </p>
+                    <p class="desc-text">
+                        3つの開発軸を並行して進める独自メソッド。<br>
+                        全23段階のレベル定義で現在地の把握から<br>
+                        次のステップまで迷わず進められる。<br>
+                        安全ガイド・トラブル対処・おすすめ音声まで<br>
+                        すべてを網羅した一冊完結型ガイド。
+                    </p>
+                </div>
+
+                <div class="specs">
+                    <div class="spec">
+                        <div class="spec-value">13万+</div>
+                        <div class="spec-label">文字</div>
+                    </div>
+                    <div class="spec">
+                        <div class="spec-value">23</div>
+                        <div class="spec-label">段階</div>
+                    </div>
+                    <div class="spec">
+                        <div class="spec-value">7</div>
+                        <div class="spec-label">章構成</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 右カラム: 3軸メソッド -->
+            <div class="right-col">
+                <div class="axis-section-title">3つの開発軸</div>
+
+                <div class="axis-card hypnosis">
+                    <div class="axis-info">
+                        <div class="axis-name">催眠開発</div>
+                        <div class="axis-desc">快感を受け入れる精神的土台を構築<br>脳が「気持ちいい」を認識する回路を作る</div>
+                    </div>
+                    <div class="axis-difficulty">★☆☆</div>
+                </div>
+
+                <div class="axis-card nipple">
+                    <div class="axis-info">
+                        <div class="axis-name">乳首開発</div>
+                        <div class="axis-desc">スポールバンで感度を上げ<br>ペニスとは異なる「甘い快感」を習得</div>
+                    </div>
+                    <div class="axis-difficulty">★★☆</div>
+                </div>
+
+                <div class="axis-card prostate">
+                    <div class="axis-info">
+                        <div class="axis-name">前立腺開発</div>
+                        <div class="axis-desc">アネロスで前立腺を刺激し<br>射精を伴わない強烈な快感を獲得</div>
+                    </div>
+                    <div class="axis-difficulty">★★★</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- フッター -->
+        <div class="footer-bar">
+            <div class="goal-flow">
+                <div class="goal-item">
+                    <div class="goal-period">約6ヶ月</div>
+                    <div class="goal-label do">DRY ORGASM</div>
+                </div>
+                <div class="goal-arrow">→</div>
+                <div class="goal-item">
+                    <div class="goal-period">その先へ</div>
+                    <div class="goal-label so">SUPER ORGASM</div>
+                </div>
+            </div>
+            <div class="footer-divider"></div>
+            <div class="footer-note">⚠️ 18歳以上対象｜期間は個人差があります</div>
+            <div class="footer-divider"></div>
+            <div class="footer-copyright">© SuperOrgasm</div>
+        </div>
+    </div>
+</body>
+</html>

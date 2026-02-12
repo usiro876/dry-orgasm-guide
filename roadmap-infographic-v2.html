@@ -1,0 +1,736 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>6ヶ月ロードマップ</title>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;700;900&family=Orbitron:wght@700;900&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-primary: #0a0a12;
+            --bg-secondary: #12121f;
+            --color-hypnosis: #9d4edd;
+            --color-hypnosis-glow: rgba(157, 78, 221, 0.4);
+            --color-nipple: #f72585;
+            --color-nipple-glow: rgba(247, 37, 133, 0.4);
+            --color-prostate: #ff9e00;
+            --color-prostate-glow: rgba(255, 158, 0, 0.4);
+            --color-goal: #ffd700;
+            --color-goal-glow: rgba(255, 215, 0, 0.5);
+            --color-so: #ff6b6b;
+            --color-text: #ffffff;
+            --color-text-sub: rgba(255, 255, 255, 0.7);
+            --color-text-dim: rgba(255, 255, 255, 0.4);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Noto Sans JP', sans-serif;
+            background: var(--bg-primary);
+            color: var(--color-text);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+        }
+
+        .container {
+            width: 1920px;
+            height: 1080px;
+            background: linear-gradient(135deg, var(--bg-primary) 0%, var(--bg-secondary) 50%, #0d0d1a 100%);
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* 背景エフェクト */
+        .bg-grid {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px);
+            background-size: 60px 60px;
+            pointer-events: none;
+        }
+
+        .bg-glow {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(150px);
+            opacity: 0.15;
+            pointer-events: none;
+        }
+
+        .glow-1 {
+            width: 600px;
+            height: 600px;
+            background: var(--color-hypnosis);
+            top: -200px;
+            left: -100px;
+        }
+
+        .glow-2 {
+            width: 500px;
+            height: 500px;
+            background: var(--color-goal);
+            bottom: -150px;
+            right: 200px;
+        }
+
+        .glow-3 {
+            width: 400px;
+            height: 400px;
+            background: var(--color-prostate);
+            top: 30%;
+            right: -100px;
+        }
+
+        /* ヘッダー */
+        .header {
+            position: absolute;
+            top: 25px;
+            left: 0;
+            width: 100%;
+            text-align: center;
+            z-index: 10;
+        }
+
+        .subtitle {
+            font-size: 22px;
+            letter-spacing: 10px;
+            color: var(--color-text-sub);
+            margin-bottom: -8px;
+            text-transform: uppercase;
+        }
+
+        .title {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 72px;
+            font-weight: 900;
+            background: linear-gradient(135deg, var(--color-text-sub) 0%, var(--color-goal) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            letter-spacing: 6px;
+        }
+
+        /* タイムラインセクション */
+        .timeline-section {
+            position: absolute;
+            top: 160px;
+            left: 80px;
+            right: 80px;
+            z-index: 10;
+        }
+
+        /* 月マーカー */
+        .month-markers {
+            display: flex;
+            justify-content: space-between;
+            padding: 0 40px;
+            margin-bottom: 15px;
+        }
+
+        .month-marker {
+            text-align: center;
+            width: 80px;
+        }
+
+        .month-number {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 28px;
+            font-weight: 700;
+            color: var(--color-text);
+        }
+
+        .month-label {
+            font-size: 14px;
+            color: var(--color-text-sub);
+            letter-spacing: 2px;
+        }
+
+        /* タイムラインバー */
+        .timeline-bar {
+            height: 12px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 6px;
+            position: relative;
+            margin: 0 40px;
+        }
+
+        .timeline-progress {
+            position: absolute;
+            top: 0;
+            left: 0;
+            height: 100%;
+            border-radius: 6px;
+            background: linear-gradient(90deg, 
+                rgba(255, 255, 255, 0.2) 0%, 
+                rgba(255, 255, 255, 0.4) 50%, 
+                var(--color-goal) 80%,
+                var(--color-so) 100%
+            );
+            width: 100%;
+        }
+
+        .timeline-nodes {
+            position: absolute;
+            top: 50%;
+            left: 0;
+            right: 0;
+            transform: translateY(-50%);
+            display: flex;
+            justify-content: space-between;
+            padding: 0 40px;
+        }
+
+        .timeline-node {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: var(--bg-primary);
+            border: 3px solid rgba(255, 255, 255, 0.5);
+            z-index: 5;
+        }
+
+        .timeline-node.goal {
+            width: 28px;
+            height: 28px;
+            border-color: var(--color-goal);
+            box-shadow: 0 0 20px var(--color-goal-glow);
+        }
+
+        .timeline-node.ultimate {
+            width: 28px;
+            height: 28px;
+            border-color: var(--color-so);
+            box-shadow: 0 0 20px rgba(255, 107, 107, 0.5);
+        }
+
+        /* フェーズカード */
+        .phases-container {
+            position: absolute;
+            top: 260px;
+            left: 60px;
+            right: 60px;
+            display: flex;
+            gap: 20px;
+            z-index: 10;
+        }
+
+        .phase-card {
+            flex: 1;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 25px 20px;
+            position: relative;
+            backdrop-filter: blur(10px);
+        }
+
+        .phase-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            border-radius: 20px 20px 0 0;
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        /* DO達成フェーズのみアクセント */
+        .phase-4::before {
+            background: linear-gradient(90deg, rgba(255, 215, 0, 0.6), rgba(255, 215, 0, 0.2));
+        }
+
+        .phase-5::before {
+            background: linear-gradient(90deg, rgba(255, 107, 107, 0.6), rgba(255, 107, 107, 0.2));
+        }
+
+        .phase-period {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 14px;
+            letter-spacing: 2px;
+            margin-bottom: 8px;
+            color: var(--color-text-sub);
+        }
+
+        .phase-4 .phase-period { color: var(--color-goal); }
+        .phase-5 .phase-period { color: var(--color-so); }
+
+        .phase-name {
+            font-size: 26px;
+            font-weight: 900;
+            margin-bottom: 12px;
+            line-height: 1.2;
+        }
+
+        .phase-goal {
+            font-size: 15px;
+            color: var(--color-text-sub);
+            line-height: 1.6;
+        }
+
+        .phase-badge {
+            position: absolute;
+            top: -12px;
+            right: 15px;
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 700;
+            letter-spacing: 1px;
+        }
+
+        .badge-do {
+            background: var(--color-goal);
+            color: var(--bg-primary);
+        }
+
+        .badge-so {
+            background: var(--color-so);
+            color: white;
+        }
+
+        /* レベル進捗セクション */
+        .levels-section {
+            position: absolute;
+            top: 540px;
+            left: 80px;
+            right: 80px;
+            z-index: 10;
+        }
+
+        .levels-title {
+            font-size: 20px;
+            font-weight: 700;
+            letter-spacing: 4px;
+            margin-bottom: 25px;
+            text-align: center;
+            color: var(--color-text-sub);
+        }
+
+        .level-row {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+            gap: 25px;
+        }
+
+        .level-label {
+            width: 140px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .level-icon {
+            width: 44px;
+            height: 44px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 22px;
+        }
+
+        .level-hypnosis .level-icon {
+            background: var(--color-hypnosis-glow);
+        }
+
+        .level-nipple .level-icon {
+            background: var(--color-nipple-glow);
+        }
+
+        .level-prostate .level-icon {
+            background: var(--color-prostate-glow);
+        }
+
+        .level-name {
+            font-size: 18px;
+            font-weight: 700;
+        }
+
+        .level-hypnosis .level-name { color: var(--color-hypnosis); }
+        .level-nipple .level-name { color: var(--color-nipple); }
+        .level-prostate .level-name { color: var(--color-prostate); }
+
+        .level-track {
+            flex: 1;
+            height: 36px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 8px;
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+
+        .level-segments {
+            display: flex;
+            width: 100%;
+            height: 100%;
+            padding: 4px;
+            gap: 4px;
+        }
+
+        .level-segment {
+            flex: 1;
+            border-radius: 4px;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .level-segment.filled {
+            opacity: 1;
+        }
+
+        .level-segment.empty {
+            background: rgba(255, 255, 255, 0.03);
+        }
+
+        .level-hypnosis .level-segment.filled {
+            background: linear-gradient(135deg, var(--color-hypnosis), rgba(157, 78, 221, 0.6));
+        }
+
+        .level-nipple .level-segment.filled {
+            background: linear-gradient(135deg, var(--color-nipple), rgba(247, 37, 133, 0.6));
+        }
+
+        .level-prostate .level-segment.filled {
+            background: linear-gradient(135deg, var(--color-prostate), rgba(255, 158, 0, 0.6));
+        }
+
+        .segment-label {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 11px;
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        .level-segment.empty .segment-label {
+            color: rgba(255, 255, 255, 0.3);
+        }
+
+        .level-range {
+            width: 100px;
+            text-align: right;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 16px;
+            color: var(--color-text-sub);
+        }
+
+        /* ゴールセクション */
+        .goal-section {
+            position: absolute;
+            bottom: 130px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            align-items: center;
+            gap: 40px;
+            z-index: 10;
+        }
+
+        .goal-box {
+            padding: 22px 50px;
+            border-radius: 16px;
+            text-align: center;
+        }
+
+        .goal-do {
+            background: linear-gradient(135deg, rgba(255, 215, 0, 0.15), rgba(255, 215, 0, 0.05));
+            border: 2px solid var(--color-goal);
+            box-shadow: 0 0 40px var(--color-goal-glow);
+        }
+
+        .goal-so {
+            background: linear-gradient(135deg, rgba(255, 107, 107, 0.15), rgba(255, 107, 107, 0.05));
+            border: 2px solid var(--color-so);
+            box-shadow: 0 0 40px rgba(255, 107, 107, 0.3);
+        }
+
+        .goal-timing {
+            font-size: 14px;
+            letter-spacing: 3px;
+            margin-bottom: 6px;
+            opacity: 0.7;
+        }
+
+        .goal-do .goal-timing { color: var(--color-goal); }
+        .goal-so .goal-timing { color: var(--color-so); }
+
+        .goal-name {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 22px;
+            font-weight: 700;
+        }
+
+        .goal-do .goal-name { color: var(--color-goal); }
+        .goal-so .goal-name { color: var(--color-so); }
+
+        .goal-arrow {
+            font-size: 36px;
+            color: rgba(255, 255, 255, 0.4);
+        }
+
+        /* フッター */
+        .footer {
+            position: absolute;
+            bottom: 25px;
+            left: 0;
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 80px;
+            z-index: 10;
+        }
+
+        .disclaimer {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 24px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 30px;
+            font-size: 14px;
+            color: var(--color-text-sub);
+        }
+
+        .disclaimer-icon {
+            font-size: 18px;
+        }
+
+        .brand {
+            font-size: 16px;
+            color: var(--color-text-sub);
+            letter-spacing: 3px;
+        }
+
+        /* 進行インジケーター */
+        .progress-indicator {
+            position: absolute;
+            top: 490px;
+            left: 80px;
+            right: 80px;
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            z-index: 10;
+        }
+
+        .progress-arrow {
+            font-size: 24px;
+            color: rgba(255, 255, 255, 0.3);
+        }
+
+        .progress-text {
+            font-size: 16px;
+            color: var(--color-text-sub);
+            letter-spacing: 4px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- 背景エフェクト -->
+        <div class="bg-grid"></div>
+        <div class="bg-glow glow-1"></div>
+        <div class="bg-glow glow-2"></div>
+        <div class="bg-glow glow-3"></div>
+
+        <!-- ヘッダー -->
+        <header class="header">
+            <p class="subtitle">Dry Orgasm Complete Guide</p>
+            <h1 class="title">6ヶ月ロードマップ</h1>
+        </header>
+
+        <!-- タイムラインセクション -->
+        <section class="timeline-section">
+            <!-- 月マーカー -->
+            <div class="month-markers">
+                <div class="month-marker">
+                    <div class="month-number">0</div>
+                    <div class="month-label">START</div>
+                </div>
+                <div class="month-marker">
+                    <div class="month-number">1</div>
+                    <div class="month-label">MONTH</div>
+                </div>
+                <div class="month-marker">
+                    <div class="month-number">3</div>
+                    <div class="month-label">MONTH</div>
+                </div>
+                <div class="month-marker">
+                    <div class="month-number">5</div>
+                    <div class="month-label">MONTH</div>
+                </div>
+                <div class="month-marker">
+                    <div class="month-number">6</div>
+                    <div class="month-label">MONTH</div>
+                </div>
+                <div class="month-marker">
+                    <div class="month-number">8+</div>
+                    <div class="month-label">MONTH</div>
+                </div>
+            </div>
+
+            <!-- タイムラインバー -->
+            <div class="timeline-bar">
+                <div class="timeline-progress"></div>
+                <div class="timeline-nodes">
+                    <div class="timeline-node"></div>
+                    <div class="timeline-node"></div>
+                    <div class="timeline-node"></div>
+                    <div class="timeline-node"></div>
+                    <div class="timeline-node goal"></div>
+                    <div class="timeline-node ultimate"></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- フェーズカード -->
+        <div class="phases-container">
+            <div class="phase-card phase-1">
+                <div class="phase-period">0〜1ヶ月</div>
+                <div class="phase-name">準備期</div>
+                <div class="phase-goal">慣れ・基礎感覚獲得<br>環境整備とマインドセット</div>
+            </div>
+            <div class="phase-card phase-2">
+                <div class="phase-period">1〜3ヶ月</div>
+                <div class="phase-name">感覚認識期</div>
+                <div class="phase-goal">「何か違う感覚」の認識<br>催眠への慣れと感度向上</div>
+            </div>
+            <div class="phase-card phase-3">
+                <div class="phase-period">3〜5ヶ月</div>
+                <div class="phase-name">性感認識・増加期</div>
+                <div class="phase-goal">性感として認識・増幅<br>快感の蓄積と没頭</div>
+            </div>
+            <div class="phase-card phase-4">
+                <span class="phase-badge badge-do">★ DO達成</span>
+                <div class="phase-period">5〜8ヶ月</div>
+                <div class="phase-name">甘イキ・DO期</div>
+                <div class="phase-goal">甘イキコントロール習得<br>ドライオーガズム達成</div>
+            </div>
+            <div class="phase-card phase-5">
+                <span class="phase-badge badge-so">∞ SO</span>
+                <div class="phase-period">8ヶ月〜</div>
+                <div class="phase-name">SO期</div>
+                <div class="phase-goal">連続絶頂・制御不能領域<br>スーパーオーガズムへ</div>
+            </div>
+        </div>
+
+        <!-- 進行インジケーター -->
+        <div class="progress-indicator">
+            <span class="progress-text">3軸並行開発で進捗</span>
+            <span class="progress-arrow">▼</span>
+        </div>
+
+        <!-- レベル進捗セクション（全軸Lv1〜10で統一） -->
+        <section class="levels-section">
+            <!-- 催眠（Lv1〜5まで） -->
+            <div class="level-row level-hypnosis">
+                <div class="level-label">
+                    <div class="level-icon">🧠</div>
+                    <span class="level-name">催眠</span>
+                </div>
+                <div class="level-track">
+                    <div class="level-segments">
+                        <div class="level-segment filled"><span class="segment-label">1</span></div>
+                        <div class="level-segment filled"><span class="segment-label">2</span></div>
+                        <div class="level-segment filled"><span class="segment-label">3</span></div>
+                        <div class="level-segment filled"><span class="segment-label">4</span></div>
+                        <div class="level-segment filled"><span class="segment-label">5</span></div>
+                        <div class="level-segment empty"><span class="segment-label">6</span></div>
+                        <div class="level-segment empty"><span class="segment-label">7</span></div>
+                        <div class="level-segment empty"><span class="segment-label">8</span></div>
+                        <div class="level-segment empty"><span class="segment-label">9</span></div>
+                        <div class="level-segment empty"><span class="segment-label">10</span></div>
+                    </div>
+                </div>
+                <div class="level-range">→ Lv 5</div>
+            </div>
+
+            <!-- 乳首（Lv1〜8まで） -->
+            <div class="level-row level-nipple">
+                <div class="level-label">
+                    <div class="level-icon">💗</div>
+                    <span class="level-name">乳首</span>
+                </div>
+                <div class="level-track">
+                    <div class="level-segments">
+                        <div class="level-segment filled"><span class="segment-label">1</span></div>
+                        <div class="level-segment filled"><span class="segment-label">2</span></div>
+                        <div class="level-segment filled"><span class="segment-label">3</span></div>
+                        <div class="level-segment filled"><span class="segment-label">4</span></div>
+                        <div class="level-segment filled"><span class="segment-label">5</span></div>
+                        <div class="level-segment filled"><span class="segment-label">6</span></div>
+                        <div class="level-segment filled"><span class="segment-label">7</span></div>
+                        <div class="level-segment filled"><span class="segment-label">8</span></div>
+                        <div class="level-segment empty"><span class="segment-label">9</span></div>
+                        <div class="level-segment empty"><span class="segment-label">10</span></div>
+                    </div>
+                </div>
+                <div class="level-range">→ Lv 8</div>
+            </div>
+
+            <!-- 前立腺（Lv1〜10まで） -->
+            <div class="level-row level-prostate">
+                <div class="level-label">
+                    <div class="level-icon">🔥</div>
+                    <span class="level-name">前立腺</span>
+                </div>
+                <div class="level-track">
+                    <div class="level-segments">
+                        <div class="level-segment filled"><span class="segment-label">1</span></div>
+                        <div class="level-segment filled"><span class="segment-label">2</span></div>
+                        <div class="level-segment filled"><span class="segment-label">3</span></div>
+                        <div class="level-segment filled"><span class="segment-label">4</span></div>
+                        <div class="level-segment filled"><span class="segment-label">5</span></div>
+                        <div class="level-segment filled"><span class="segment-label">6</span></div>
+                        <div class="level-segment filled"><span class="segment-label">7</span></div>
+                        <div class="level-segment filled"><span class="segment-label">8</span></div>
+                        <div class="level-segment filled"><span class="segment-label">9</span></div>
+                        <div class="level-segment filled"><span class="segment-label">10</span></div>
+                    </div>
+                </div>
+                <div class="level-range">→ Lv 10</div>
+            </div>
+        </section>
+
+        <!-- ゴールセクション -->
+        <section class="goal-section">
+            <div class="goal-box goal-do">
+                <div class="goal-timing">約6ヶ月</div>
+                <div class="goal-name">ドライオーガズム</div>
+            </div>
+            <span class="goal-arrow">→</span>
+            <div class="goal-box goal-so">
+                <div class="goal-timing">その先へ</div>
+                <div class="goal-name">スーパーオーガズム</div>
+            </div>
+        </section>
+
+        <!-- フッター -->
+        <footer class="footer">
+            <div class="disclaimer">
+                <span class="disclaimer-icon">ℹ️</span>
+                <span>期間は目安です。個人差があります。焦らず自分のペースで進めてください。</span>
+            </div>
+            <span class="brand">© SuperOrgasm</span>
+        </footer>
+    </div>
+</body>
+</html>

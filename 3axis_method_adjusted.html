@@ -1,0 +1,528 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>3軸メソッド概念図</title>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;700;900&family=Orbitron:wght@700;900&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-primary: #0a0a12;
+            --bg-secondary: #12121f;
+            --color-hypnosis: #9d4edd;
+            --color-hypnosis-glow: rgba(157, 78, 221, 0.4);
+            --color-nipple: #f72585;
+            --color-nipple-glow: rgba(247, 37, 133, 0.4);
+            --color-prostate: #ff9e00;
+            --color-prostate-glow: rgba(255, 158, 0, 0.4);
+            --color-goal: #ffd700;
+            --color-goal-glow: rgba(255, 215, 0, 0.5);
+            --color-so: #ff6b6b;
+            --color-text: #ffffff;
+            --color-text-sub: rgba(255, 255, 255, 0.7);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Noto Sans JP', sans-serif;
+            background: var(--bg-primary);
+            color: var(--color-text);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+        }
+
+        .container {
+            width: 1920px;
+            height: 1080px;
+            background: linear-gradient(135deg, var(--bg-primary) 0%, var(--bg-secondary) 50%, #0d0d1a 100%);
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* 背景エフェクト */
+        .bg-grid {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px);
+            background-size: 60px 60px;
+            pointer-events: none;
+        }
+
+        .bg-glow {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(120px);
+            opacity: 0.25;
+            pointer-events: none;
+        }
+
+        .glow-1 {
+            width: 700px;
+            height: 700px;
+            background: var(--color-hypnosis);
+            top: -250px;
+            left: -150px;
+        }
+
+        .glow-2 {
+            width: 600px;
+            height: 600px;
+            background: var(--color-nipple);
+            bottom: -200px;
+            right: 150px;
+        }
+
+        .glow-3 {
+            width: 500px;
+            height: 500px;
+            background: var(--color-prostate);
+            top: 40%;
+            right: -150px;
+        }
+
+        /* ヘッダー - 上に移動 (top: 40px → 10px) */
+        .header {
+            position: absolute;
+            top: 10px;
+            left: 0;
+            width: 100%;
+            text-align: center;
+            z-index: 10;
+        }
+
+        .subtitle {
+            font-size: 24px;
+            letter-spacing: 10px;
+            color: var(--color-text-sub);
+            margin-bottom: -10px;
+            text-transform: uppercase;
+        }
+
+        .title {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 96px;
+            font-weight: 900;
+            background: linear-gradient(135deg, var(--color-hypnosis), var(--color-nipple), var(--color-prostate));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            letter-spacing: 8px;
+        }
+
+        /* メインコンテンツ - 下に移動 (top: 220px → 270px) */
+        .main-content {
+            position: absolute;
+            top: 270px;
+            left: 0;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: flex-end;
+            padding: 0 100px;
+        }
+
+        /* 3軸カード + 矢印を横並び */
+        .axis-flow {
+            display: flex;
+            align-items: flex-end;
+            gap: 0;
+        }
+
+        .axis-card {
+            width: 400px;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 28px;
+            padding: 45px 35px;
+            position: relative;
+            backdrop-filter: blur(10px);
+        }
+
+        .axis-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 5px;
+            border-radius: 28px 28px 0 0;
+        }
+
+        .card-hypnosis {
+            height: 380px;
+        }
+        .card-hypnosis::before {
+            background: linear-gradient(90deg, var(--color-hypnosis), transparent);
+        }
+        .card-hypnosis .axis-icon {
+            background: var(--color-hypnosis-glow);
+            color: var(--color-hypnosis);
+        }
+        .card-hypnosis .axis-number {
+            color: var(--color-hypnosis);
+        }
+
+        .card-nipple {
+            height: 430px;
+        }
+        .card-nipple::before {
+            background: linear-gradient(90deg, var(--color-nipple), transparent);
+        }
+        .card-nipple .axis-icon {
+            background: var(--color-nipple-glow);
+            color: var(--color-nipple);
+        }
+        .card-nipple .axis-number {
+            color: var(--color-nipple);
+        }
+
+        .card-prostate {
+            height: 480px;
+        }
+        .card-prostate::before {
+            background: linear-gradient(90deg, var(--color-prostate), transparent);
+        }
+        .card-prostate .axis-icon {
+            background: var(--color-prostate-glow);
+            color: var(--color-prostate);
+        }
+        .card-prostate .axis-number {
+            color: var(--color-prostate);
+        }
+
+        .axis-header {
+            display: flex;
+            align-items: center;
+            gap: 18px;
+            margin-bottom: 28px;
+        }
+
+        .axis-icon {
+            width: 70px;
+            height: 70px;
+            border-radius: 18px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 36px;
+        }
+
+        .axis-number {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 18px;
+            font-weight: 700;
+            letter-spacing: 3px;
+        }
+
+        .axis-name {
+            font-size: 42px;
+            font-weight: 900;
+            margin-bottom: 12px;
+        }
+
+        .axis-role {
+            font-size: 20px;
+            color: var(--color-text-sub);
+            line-height: 1.8;
+            margin-bottom: 25px;
+        }
+
+        .axis-difficulty {
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 22px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 24px;
+            font-size: 17px;
+        }
+
+        .difficulty-bar {
+            display: flex;
+            gap: 6px;
+        }
+
+        .difficulty-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        .difficulty-dot.active {
+            background: currentColor;
+        }
+
+        /* 矢印（カード間）- margin-bottomを調整して下に移動 */
+        .flow-arrow {
+            font-size: 56px;
+            color: rgba(255, 255, 255, 0.4);
+            padding: 0 25px;
+            align-self: center;
+            margin-bottom: 40px;
+        }
+
+        /* ゴールセクション - 位置調整 (bottom: 100px → 80px) */
+        .goal-section {
+            position: absolute;
+            bottom: 80px;
+            left: 50%;
+            transform: translateX(-50%);
+            text-align: center;
+            z-index: 10;
+        }
+
+        .convergence-arrow {
+            font-size: 48px;
+            color: var(--color-goal);
+            margin-bottom: 25px;
+            opacity: 0.8;
+        }
+
+        .goal-container {
+            display: flex;
+            align-items: center;
+            gap: 50px;
+        }
+
+        .goal-box {
+            padding: 28px 60px;
+            border-radius: 20px;
+            position: relative;
+        }
+
+        .goal-do {
+            background: linear-gradient(135deg, rgba(255, 215, 0, 0.15), rgba(255, 215, 0, 0.05));
+            border: 2px solid var(--color-goal);
+            box-shadow: 0 0 50px var(--color-goal-glow);
+        }
+
+        .goal-so {
+            background: linear-gradient(135deg, rgba(255, 107, 107, 0.15), rgba(255, 107, 107, 0.05));
+            border: 2px solid var(--color-so);
+            box-shadow: 0 0 50px rgba(255, 107, 107, 0.3);
+        }
+
+        .goal-label {
+            font-size: 16px;
+            letter-spacing: 4px;
+            margin-bottom: 10px;
+            opacity: 0.7;
+        }
+
+        .goal-do .goal-label {
+            color: var(--color-goal);
+        }
+
+        .goal-so .goal-label {
+            color: var(--color-so);
+        }
+
+        .goal-name {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 28px;
+            font-weight: 700;
+        }
+
+        .goal-do .goal-name {
+            color: var(--color-goal);
+        }
+
+        .goal-so .goal-name {
+            color: var(--color-so);
+        }
+
+        .goal-arrow {
+            font-size: 42px;
+            color: rgba(255, 255, 255, 0.4);
+        }
+
+        /* フッター */
+        .footer {
+            position: absolute;
+            bottom: 30px;
+            left: 0;
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 80px;
+            z-index: 10;
+        }
+
+        .timeline-badge {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 16px 32px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 35px;
+        }
+
+        .timeline-icon {
+            font-size: 26px;
+        }
+
+        .timeline-text {
+            font-size: 22px;
+            font-weight: 700;
+        }
+
+        .timeline-text span {
+            color: var(--color-goal);
+        }
+
+        .brand {
+            font-size: 18px;
+            color: var(--color-text-sub);
+            letter-spacing: 3px;
+        }
+
+        /* 相乗効果ラベル - 上に移動 (top: 200px → 170px) */
+        .synergy-label {
+            position: absolute;
+            top: 180px;
+            left: 50%;
+            transform: translateX(-50%);
+            padding: 14px 40px;
+            background: linear-gradient(135deg, rgba(157, 78, 221, 0.2), rgba(255, 158, 0, 0.2));
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 35px;
+            font-size: 20px;
+            font-weight: 700;
+            letter-spacing: 4px;
+            white-space: nowrap;
+            z-index: 15;
+        }
+
+        .synergy-label::before,
+        .synergy-label::after {
+            content: '✦';
+            margin: 0 15px;
+            opacity: 0.5;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- 背景エフェクト -->
+        <div class="bg-grid"></div>
+        <div class="bg-glow glow-1"></div>
+        <div class="bg-glow glow-2"></div>
+        <div class="bg-glow glow-3"></div>
+
+        <!-- ヘッダー -->
+        <header class="header">
+            <p class="subtitle">Dry Orgasm Complete Guide</p>
+            <h1 class="title">3軸メソッド</h1>
+        </header>
+
+        <!-- 相乗効果ラベル -->
+        <div class="synergy-label">相乗効果で開発を加速</div>
+
+        <!-- メインコンテンツ -->
+        <main class="main-content">
+            <div class="axis-flow">
+                <!-- 催眠開発 -->
+                <div class="axis-card card-hypnosis">
+                    <div class="axis-header">
+                        <div class="axis-icon">🧠</div>
+                        <span class="axis-number">AXIS 01</span>
+                    </div>
+                    <h2 class="axis-name">催眠開発</h2>
+                    <p class="axis-role">精神的な土台を構築<br>快感を受け入れる脳を作る</p>
+                    <div class="axis-difficulty">
+                        <span>難易度</span>
+                        <div class="difficulty-bar" style="color: var(--color-hypnosis);">
+                            <span class="difficulty-dot active"></span>
+                            <span class="difficulty-dot"></span>
+                            <span class="difficulty-dot"></span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 矢印1 -->
+                <span class="flow-arrow">→</span>
+
+                <!-- 乳首開発 -->
+                <div class="axis-card card-nipple">
+                    <div class="axis-header">
+                        <div class="axis-icon">💗</div>
+                        <span class="axis-number">AXIS 02</span>
+                    </div>
+                    <h2 class="axis-name">乳首開発</h2>
+                    <p class="axis-role">受動的な性感帯を育成<br>「甘い快感」の獲得</p>
+                    <div class="axis-difficulty">
+                        <span>難易度</span>
+                        <div class="difficulty-bar" style="color: var(--color-nipple);">
+                            <span class="difficulty-dot active"></span>
+                            <span class="difficulty-dot active"></span>
+                            <span class="difficulty-dot"></span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 矢印2 -->
+                <span class="flow-arrow">→</span>
+
+                <!-- 前立腺開発 -->
+                <div class="axis-card card-prostate">
+                    <div class="axis-header">
+                        <div class="axis-icon">🔥</div>
+                        <span class="axis-number">AXIS 03</span>
+                    </div>
+                    <h2 class="axis-name">前立腺開発</h2>
+                    <p class="axis-role">ドライオーガズムの主軸<br>射精を伴わない強烈な快感</p>
+                    <div class="axis-difficulty">
+                        <span>難易度</span>
+                        <div class="difficulty-bar" style="color: var(--color-prostate);">
+                            <span class="difficulty-dot active"></span>
+                            <span class="difficulty-dot active"></span>
+                            <span class="difficulty-dot active"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <!-- ゴールセクション -->
+        <section class="goal-section">
+            <div class="convergence-arrow">▼</div>
+            <div class="goal-container">
+                <div class="goal-box goal-do">
+                    <p class="goal-label">PRIMARY GOAL</p>
+                    <p class="goal-name">ドライオーガズム</p>
+                </div>
+                <span class="goal-arrow">→</span>
+                <div class="goal-box goal-so">
+                    <p class="goal-label">ULTIMATE GOAL</p>
+                    <p class="goal-name">スーパーオーガズム</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- フッター -->
+        <footer class="footer">
+            <div class="timeline-badge">
+                <span class="timeline-icon">📅</span>
+                <span class="timeline-text">目標達成まで <span>約6ヶ月</span></span>
+            </div>
+            <span class="brand">© SuperOrgasm</span>
+        </footer>
+    </div>
+</body>
+</html>
